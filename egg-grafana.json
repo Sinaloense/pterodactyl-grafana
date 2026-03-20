@@ -1,0 +1,31 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2026-03-20T13:28:08-07:00",
+    "name": "Grafana",
+    "author": "sinaloensemel@gmail.com",
+    "description": "grafana egg",
+    "features": [],
+    "docker_images": {
+        "bookworm": "ghcr.io\/sinaloense\/pterodactyl-debian:bookworm-slim"
+    },
+    "file_denylist": [],
+    "startup": ".\/bin\/grafana server --config=.\/conf\/grafana.ini --homepath=.\/",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"HTTP Server Listen\"\r\n}",
+        "logs": "{}",
+        "stop": "^C & ^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/bash\r\n# Grafana Installation Script\r\n#\r\n\r\napt-get update\r\napt-get install --no-install-recommends -y ca-certificates wget\r\n\r\n# Download configs in a tmp folder\r\nmkdir -p \/mnt\/server\/ZtMCQm\/\r\nrm -Rf \/mnt\/server\/ZtMCQm\/*\r\ncd \/mnt\/server\/ZtMCQm\/\r\n\r\n# Download Prometheus\r\nwget https:\/\/dl.grafana.com\/grafana\/release\/12.4.1\/grafana_12.4.1_22846628243_linux_amd64.tar.gz\r\ntar -zxvf grafana_12.4.1_22846628243_linux_amd64.tar.gz\r\ncp grafana-12.4.1\/conf\/sample.ini grafana-12.4.1\/conf\/grafana.ini\r\n\r\n# Replace grafana.ini\r\nsed -i \"s#^;http_port = 3000#http_port = $SERVER_PORT#\" \/mnt\/server\/ZtMCQm\/grafana-12.4.1\/conf\/grafana.ini\r\n\r\n# Put config in server\r\nyes | cp -avr grafana-12.4.1\/* \/mnt\/server\/\r\n\r\n# Delete tmp folder\r\ncd \/mnt\/server\/\r\nrm -Rf ZtMCQm\/",
+            "container": "debian:bookworm-slim",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": []
+}
